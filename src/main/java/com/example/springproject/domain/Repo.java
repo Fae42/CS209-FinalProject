@@ -1,7 +1,18 @@
 package com.example.springproject.domain;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
+@Entity
 public class Repo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @NotNull
     String name;
+    String owner;
     int developerNum;
     int most_active_developer;
     int open_issues;
@@ -43,9 +54,20 @@ public class Repo {
         this.releases_top10_commits = 0;
         this.releases_commits = 0;
     }
-
+    
+    public long getId() {
+        return id;
+    }
+    
     public String getName() {
         return name;
+    }
+    public String getOwner() {
+        return owner;
+    }
+    
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public int getDeveloperNum() {

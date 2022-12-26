@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface RepoService {
 
-    public Repo findInfo();
+    public void updateInfo(String owner, String repoName);
+    
+    public Repo findByOwnerAndName(String owner, String name);
 
 }

@@ -48,7 +48,7 @@ public class RepoController {
 
     @GetMapping("/getInfo1")
     public Repo getInfo_1(){
-        return repoService.findInfo();
+        return null;
     }
 
     @GetMapping("/getInfo2")
@@ -77,7 +77,8 @@ public class RepoController {
         arrayList.add(""+JsonPath.read(document, "$.most_active_developer.login"));
         arrayList.add(""+JsonPath.read(document, "$.open_issues"));
         arrayList.add(""+JsonPath.read(document, "$.close_issues"));
-
+        repoService.updateInfo("MaaAssistantArknights"
+                , "MaaAssistantArknights");//for testing, this line gets and saves all developers data.
         return arrayList;
     }
 
