@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -85,17 +86,17 @@ public class IssueServiceImpl implements IssueService{
 	}
 	
 	@Override
-	public long getAvgSolveTime() {
+	public Date getAvgSolveTime() {
 		return issueRepository.avgSolveTime();
 	}
 	
 	@Override
-	public long getMaxSolveTime() {
+	public Date getMaxSolveTime() {
 		return issueRepository.maxSolveTime();
 	}
 	
 	@Override
-	public long getMinSolveTime() {
+	public Date getMinSolveTime() {
 		return issueRepository.minSolveTime();
 	}
 	

@@ -48,4 +48,5 @@ public class Test {
 	public List<Integer> commitsBetween() {
 		return releaseService.commitsBetween();
 	}
+	
 }

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Long> {
 	
@@ -21,12 +23,12 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 	long countByIsOpenFalse();
 	
 	@Query("select avg(i.closeTime-i.openTime) from Issue i")
-	long avgSolveTime();
+	Date avgSolveTime();
 	
 	@Query("select max(i.closeTime-i.openTime) from Issue i")
-	long maxSolveTime();
+	Date maxSolveTime();
 	
 	@Query("select min(i.closeTime-i.openTime) from Issue i")
-	long minSolveTime();
+	Date minSolveTime();
 
 }
