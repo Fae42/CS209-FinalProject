@@ -1,5 +1,6 @@
 package com.example.springproject.service;
 
+import com.example.springproject.api.ReleaseRepository;
 import com.example.springproject.api.RepoRepository;
 import com.example.springproject.domain.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ public class RepoServiceImpl implements RepoService {
     @Autowired
     private RepoRepository repoRepository;
     @Autowired
-    private DeveloperServiceImpl developerService;
+    private DeveloperService developerService;
     @Autowired
-    private IssueServiceImpl issueService;
+    private IssueService issueService;
+    @Autowired
+    private ReleaseService releaseService;
     
     @Override
     public void updateInfo(String owner, String repoName) {
@@ -26,6 +29,7 @@ public class RepoServiceImpl implements RepoService {
         }
         developerService.update(owner, repoName, repo.getId());
         issueService.update(owner, repoName, repo.getId());
+        releaseService.update(owner, repoName, repo.getId());
     }
     
     @Override
