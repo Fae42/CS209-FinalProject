@@ -11,6 +11,8 @@ public class RepoServiceImpl implements RepoService {
     private RepoRepository repoRepository;
     @Autowired
     private DeveloperServiceImpl developerService;
+    @Autowired
+    private IssueServiceImpl issueService;
     
     @Override
     public void updateInfo(String owner, String repoName) {
@@ -23,6 +25,7 @@ public class RepoServiceImpl implements RepoService {
             repoRepository.save(repo);
         }
         developerService.update(owner, repoName, repo.getId());
+        issueService.update(owner, repoName, repo.getId());
     }
     
     @Override

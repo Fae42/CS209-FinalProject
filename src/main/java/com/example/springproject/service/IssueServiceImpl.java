@@ -1,11 +1,12 @@
 package com.example.springproject.service;
 
-import com.example.springproject.api.DevelopRepository;
+import com.example.springproject.api.IssueRepository;
 import com.example.springproject.domain.Developer;
+import com.example.springproject.domain.Issue;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,22 +14,24 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 @Service
-public class DeveloperServiceImpl implements DeveloperService{
+public class IssueServiceImpl implements IssueService{
 	@Autowired
-	DevelopRepository developRepository;
+	IssueRepository issueRepository;
+	
 	@Override
 	public void update(String owner, String repoName, long repoID) {
-		System.out.println("update developers");
+		System.out.println("update issue");
 		try {
 			StringBuilder json = new StringBuilder();
 			String accessToken = "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";
 			int page = 1;
 			while(true) {
 				json = new StringBuilder();
-				URL urlObject = new URL(String.format("https://api.github.com/repos/%s/%s/contributors?page=%d&per_page=100"
+				URL urlObject = new URL(String.format("https://api.github.com/repos/%s/%s/issues?page=%d&per_page=100&state=all"
 						,owner, repoName, page) );
 				URLConnection uc = urlObject.openConnection();
 				HttpURLConnection httpURLConnection = (HttpURLConnection)uc;
@@ -44,24 +47,51 @@ public class DeveloperServiceImpl implements DeveloperService{
 					break;
 				}
 				page++;
+				
 				for (int i=0; i < jsonArray.size(); i++) {
 					JSONObject jo = jsonArray.getJSONObject(i);
-					Developer developer = new Developer();
-					developer.setRepoID(repoID);
-					System.out.println(jo.getInt("contributions"));
-					System.out.println(jo.getString("login"));
-					developer.setContributions(jo.getInt("contributions"));
-					developer.setName((jo.getString("login")));
-					developRepository.save(developer);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+					sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+					
+					Issue issue = new Issue();
+					
+					issue.setRepoID(repoID);
+					issue.setOpen(jo.getString("state").equals("open"));
+					issue.setOpenTime(sdf.parse(jo.getString("created_at")));
+					if(!issue.isOpen()) {
+						issue.setCloseTime(sdf.parse(jo.getString("closed_at")));
+					}
+					issueRepository.save(issue);
 				}
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public List<Developer> findAll() {
-		return developRepository.findAll();
+	@Override
+	public long countOpen() {
+		return issueRepository.countByIsOpenTrue();
 	}
+	
+	@Override
+	public long countClose() {
+		return issueRepository.countByIsOpenFalse();
+	}
+	
+	@Override
+	public long getAvgSolveTime() {
+		return issueRepository.avgSolveTime();
+	}
+	
+	@Override
+	public long getMaxSolveTime() {
+		return issueRepository.maxSolveTime();
+	}
+	
+	@Override
+	public long getMinSolveTime() {
+		return issueRepository.minSolveTime();
+	}
+	
 }
