@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DeveloperServiceImpl implements DeveloperService{
@@ -33,7 +34,9 @@ public class DeveloperServiceImpl implements DeveloperService{
 						,owner, repoName, page) );
 				URLConnection uc = urlObject.openConnection();
 				HttpURLConnection httpURLConnection = (HttpURLConnection)uc;
-				httpURLConnection.setRequestProperty("access_token", accessToken);
+				httpURLConnection.setRequestProperty("Authorization", "Bearer " + accessToken);
+				Map tmp = httpURLConnection.getHeaderFields();
+				tmp.entrySet().stream().forEach(System.out::println);
 				BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 				String inputLine = null;
 				while ( (inputLine = in.readLine()) != null) {

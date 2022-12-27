@@ -14,7 +14,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.stream.Stream;
 
 @Service
 public class CommitServiceImpl implements CommitService {
@@ -34,7 +36,9 @@ public class CommitServiceImpl implements CommitService {
 						,owner, repoName, page) );
 				URLConnection uc = urlObject.openConnection();
 				HttpURLConnection httpURLConnection = (HttpURLConnection)uc;
-				httpURLConnection.setRequestProperty("access_token", accessToken);
+				httpURLConnection.setRequestProperty("Authorization", "Bearer " + accessToken);
+				Map tmp = httpURLConnection.getHeaderFields();
+				tmp.entrySet().stream().forEach(System.out::println);
 				BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 				String inputLine = null;
 				while ( (inputLine = in.readLine()) != null) {

@@ -42,8 +42,8 @@ public class DataApp {
 				, "MaaAssistantArknights", 1);//for testing, this line gets and saves all developers' data.
 	}
 	
-	@PostMapping("/update_develop")
-	public void updateDevelop() {
+	@PostMapping("/update_developer")
+	public void updateDeveloper() {
 		developerService.update("MaaAssistantArknights"
 				, "MaaAssistantArknights", 1);//for testing, this line gets and saves all developers' data.
 	}
