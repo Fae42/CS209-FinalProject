@@ -1,6 +1,8 @@
 package com.example.springproject.web;
 
+import com.example.springproject.domain.Developer;
 import com.example.springproject.domain.Repo;
+import com.example.springproject.service.DeveloperService;
 import com.example.springproject.service.RepoService;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -78,8 +81,8 @@ public class RepoController {
         arrayList.add(""+JsonPath.read(document, "$.open_issues"));
         arrayList.add(""+JsonPath.read(document, "$.close_issues"));
         repoService.updateInfo("MaaAssistantArknights"
-                , "MaaAssistantArknights");//for testing, this line gets and saves all developers data.
+                , "MaaAssistantArknights");//for testing, this line gets and saves all developers' data.
         return arrayList;
     }
-
+    
 }
