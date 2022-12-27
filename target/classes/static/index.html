@@ -3,60 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <title>Demo</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h4>Demo Representation</h4>
-<div id="bar" style="width: 600px;height:400px;"></div>
-<div id="pie" style="width: 600px;height:400px;"></div>
-<p id="demo"></p>
+<h4>Repo Information</h4>
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseOne">
+                    The main information of the repo. (Click to fold or open)
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Developers</th>
+                    <th>Issues</th>
+                    <th>Releases</th>
+                    <th>Commits</th>
+                </tr>
+                <tr>
+                    <td id="in"></td>
+                    <td id="id"></td>
+                    <td id="ii"></td>
+                    <td id="ir"></td>
+                    <td id="ic"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseTwo">
+                    Top Developers.  (Click to fold or open)
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div id="bar1" style="width: 1000px;height:400px;"></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseThree">
+                    Repo issues.  (Click to fold or open)
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <p id="ip"></p>
+                <div id="pie1" style="width: 500px;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseFour">
+                    Release and commits.  (Click to fold or open)
+                </a>
+            </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse">
+            <div class="panel-body">
+                <p id="rp"></p>
+                <div id="bar2" style="width: 1500px;height:400px;"></div>
+                <div id="bar3" style="width: 1000px;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 <script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('bar'));
+    var bar1=echarts.init(document.getElementById('bar1'));
+    bar1.showLoading();
+    var bar2=echarts.init(document.getElementById('bar2'));
+    bar2.showLoading();
+    var bar3=echarts.init(document.getElementById('bar3'));
+    bar3.showLoading();
 
-    // 指定图表的配置项和数据
-    var option = {
-        dataset: {
-            source: [
-                ['score', 'amount', 'product'],
-                [89.3, 58212, 'Matcha Latte'],
-                [57.1, 78254, 'Milk Tea'],
-                [74.4, 41032, 'Cheese Cocoa'],
-                [50.1, 12755, 'Cheese Brownie'],
-                [89.7, 20145, 'Matcha Cocoa'],
-                [68.1, 79146, 'Tea'],
-                [19.6, 91852, 'Orange Juice'],
-                [10.6, 101852, 'Lemon Juice'],
-                [32.7, 20112, 'Walnut Brownie']
-            ]
+    var pie1=echarts.init(document.getElementById('pie1'));
+    pie1.showLoading();
+    // $.ajax({
+    //     url: '/exer/update_all',
+    //     async: false,
+    //     type: 'post',
+    // });
+    var xdata=[];
+    var ydata=[];
+    $.ajax( {
+        url:'/developer/getDevelopers',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "json",
+        success : function(data) {
+            for(var i=0; i<5&&i<data.length; i++){
+                xdata.push(data[i].name);
+                ydata.push(data[i].contributions);
+            }
         },
-        grid: {containLabel: true},
-        xAxis: {},
-        yAxis: {type: 'category'},
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+    bar1.setOption({
+        xAxis : {
+            data : xdata
+        },
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
         series: [
             {
                 type: 'bar',
-                encode: {
-                    // 将 "amount" 列映射到 X 轴。
-                    x: 'amount',
-                    // 将 "product" 列映射到 Y 轴。
-                    y: 'product'
+                data: ydata,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true, //开启显示
+                            position: 'top', //在上方显示
+                        }
+                    }
+                },
+            }
+        ]
+    });
+    bar1.hideLoading();
+
+
+    var avg;
+    var min;
+    var max;
+    var open;
+    var close;
+    $.ajax( {
+        url:'/issue/getOpen',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "json",
+        success : function(data) {
+            open=data;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+    $.ajax( {
+        url:'/issue/getClose',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "json",
+        success : function(data) {
+            close=data;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+    $.ajax( {
+        url:'/issue/getAvg',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "text",
+        success : function(data) {
+            console.log(data);
+            avg=data;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+    $.ajax( {
+        url:'/issue/getMin',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "text",
+        success : function(data) {
+            console.log(data);
+            min=data;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+    $.ajax( {
+        url:'/issue/getMax',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "text",
+        success : function(data) {
+            console.log(data);
+            max=data;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+    document.getElementById("ip").innerHTML = "Average time: "+avg+"; Min time: "+min+"; Max time:"+max+";";
+    var pie_data=[];
+    pie_data.push({value:open,name:"Open issues"});
+    pie_data.push({value:close,name:"Close issues"});
+    pie1.setOption({
+        series : [
+            {
+                name: 'Top Contributions',
+                type: 'pie',
+                radius: '55%',
+                data:pie_data,
+                itemStyle:{
+                    normal:{
+                        label:{
+                            show: true,
+                            formatter: '{b} : {c} ({d}%)'
+                        },
+                        labelLine :{show:true}
+                    }
                 }
             }
         ]
-    };
+    });
+    pie1.hideLoading();
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-</script>
-<script type="text/javascript">
+    var cb=[];
+    var rl=[];
+    $.ajax( {
+        url:'/release/getCB',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "json",
+        success : function(data) {
+            for(var i=0; i<data.length; i++){
+                cb.push(data[i]);
+                rl.push(i);
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+    bar2.setOption({
+        xAxis : {
+            data : rl
+        },
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                type: 'bar',
+                data: cb,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true, //开启显示
+                            position: 'top', //在上方显示
+                        }
+                    }
+                },
+            }
+        ]
+    });
+    bar2.hideLoading();
+
+
+    /*
+    var barChart = echarts.init(document.getElementById('bar'));
+    barChart.showLoading();
+    var pieChart = echarts.init(document.getElementById('pie'));
+    pieChart.showLoading();
+
+    barChart.setOption({
+        xAxis : {
+            data : [151,351,35,431,151,354]
+        },
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                type: 'bar',
+                data: [151,351,35,431,151,354],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true, //开启显示
+                            position: 'top', //在上方显示
+                        }
+                    }
+                },
+            }
+        ]
+    });
+    barChart.hideLoading();
+
     var pie_data;
     function Top_developers(top){
         var json_data=[];
         $.ajax( {
-            url:'/developer/getDevelopers',
+            url:'/exer/developer',
             async: false,
             type:'get',
             data: {},
@@ -65,10 +357,9 @@
                 for(var i=0; i<top&&i<data.length; i++){
                     var temp={value:null,name:null};
                     temp.name=data[i].name;
-                    temp.value=Math.random()*100;
+                    temp.value=data[i].contributions;
                     json_data.push(temp);
                 }
-                json_data.push(temp);
             },
             error : function(XMLHttpRequest, textStatus, errorThrown){
                 debugger
@@ -85,18 +376,27 @@
     }
     pie_data=Top_developers(5);
 
-
-    var myChart = echarts.init(document.getElementById('pie'));
-
-    myChart.setOption({
+    pieChart.setOption({
         series : [
             {
                 name: 'Top Contributions',
                 type: 'pie',
                 radius: '55%',
-                data:pie_data
+                data:pie_data,
+                itemStyle:{
+                    normal:{
+                        label:{
+                            show: true,
+                            formatter: '{b} : {c}'
+                        },
+                        labelLine :{show:true}
+                    }
+                }
             }
         ]
-    })
+    });
+    pieChart.hideLoading();
+
+     */
 </script>
 </html>
