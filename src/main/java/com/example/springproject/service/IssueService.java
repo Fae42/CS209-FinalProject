@@ -8,4 +8,5 @@ public interface IssueService {
 	public long getAvgSolveTime();
 	public long getMaxSolveTime();
 	public long getMinSolveTime();
+	public void delete(long repoID);
 }

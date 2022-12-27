@@ -16,10 +16,12 @@ public class RepoServiceImpl implements RepoService {
     private IssueService issueService;
     @Autowired
     private ReleaseService releaseService;
+    @Autowired
+    private CommitService commitService;
     
     @Override
     public void updateInfo(String owner, String repoName) {
-        System.out.println("update repo");
+        System.out.println("update repo, may take long time and crash due to GitHub API limits");
         Repo repo = findByOwnerAndName(owner, repoName);
         if (repo==null) {
             repo = new Repo();
@@ -27,9 +29,12 @@ public class RepoServiceImpl implements RepoService {
             repo.setName(repoName);
             repoRepository.save(repo);
         }
-        developerService.update(owner, repoName, repo.getId());
-        issueService.update(owner, repoName, repo.getId());
-        releaseService.update(owner, repoName, repo.getId());
+        long repoID = repo.getId();
+        
+        developerService.update(owner, repoName, repoID);
+        issueService.update(owner, repoName, repoID);
+        releaseService.update(owner, repoName, repoID);
+        commitService.update(owner, repoName, repoID);
     }
     
     @Override

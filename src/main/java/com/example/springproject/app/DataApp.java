@@ -1,10 +1,7 @@
 package com.example.springproject.app;
 
 import com.example.springproject.domain.Developer;
-import com.example.springproject.service.DeveloperService;
-import com.example.springproject.service.IssueService;
-import com.example.springproject.service.ReleaseService;
-import com.example.springproject.service.RepoService;
+import com.example.springproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +21,9 @@ public class DataApp {
 	IssueService issueService;
 	@Autowired
 	ReleaseService releaseService;
-	@GetMapping("/developer")
-	public List<Developer> findAll(){
-		System.out.println(developerService.getClass().getName());
-		return developerService.findAll();
-	}
+	@Autowired
+	CommitService commitService;
+	
 	@PostMapping("/update_all")
 	public void updateData() {
 		repoService.updateInfo("MaaAssistantArknights"
@@ -53,18 +48,12 @@ public class DataApp {
 				, "MaaAssistantArknights", 1);//for testing, this line gets and saves all developers' data.
 	}
 	
-	@GetMapping("/count_close")
-	public long countCloseIssues() {
-		return issueService.countClose();
+	@PostMapping("/update_commit")
+	public void updateCommit() {
+		commitService.update("MaaAssistantArknights"
+				, "MaaAssistantArknights", 1);//for testing, this line gets and saves all developers' data.
 	}
 	
-	@GetMapping("/count_open")
-	public long countOpenIssues() {
-		return issueService.countOpen();
-	}
 	
-	@GetMapping("/count_release")
-	public long countRelease() {
-		return releaseService.countRelease();
-	}
+	
 }

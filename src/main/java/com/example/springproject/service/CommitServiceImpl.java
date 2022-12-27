@@ -1,8 +1,7 @@
 package com.example.springproject.service;
 
-import com.example.springproject.api.DevelopRepository;
-import com.example.springproject.api.ReleaseRepository;
-import com.example.springproject.domain.Developer;
+import com.example.springproject.api.CommitRepository;
+import com.example.springproject.domain.Commit;
 import com.example.springproject.domain.Release;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -15,16 +14,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.TimeZone;
 
 @Service
-public class ReleaseServiceImpl implements ReleaseService{
+public class CommitServiceImpl implements CommitService {
 	@Autowired
-	ReleaseRepository releaseRepository;
+	CommitRepository commitRepository;
 	@Override
 	public void update(String owner, String repoName, long repoID) {
-		System.out.println("update releases");
+		System.out.println("update commit");
 		this.delete(repoID);
 		try {
 			StringBuilder json = new StringBuilder();
@@ -32,7 +30,7 @@ public class ReleaseServiceImpl implements ReleaseService{
 			int page = 1;
 			while(true) {
 				json = new StringBuilder();
-				URL urlObject = new URL(String.format("https://api.github.com/repos/%s/%s/releases?page=%d&per_page=100"
+				URL urlObject = new URL(String.format("https://api.github.com/repos/%s/%s/commits?page=%d&per_page=100"
 						,owner, repoName, page) );
 				URLConnection uc = urlObject.openConnection();
 				HttpURLConnection httpURLConnection = (HttpURLConnection)uc;
@@ -53,26 +51,24 @@ public class ReleaseServiceImpl implements ReleaseService{
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 					sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 					
-					Release release = new Release();
-					release.setRepoID(repoID);
-					release.setName(jo.getString("name"));
-					release.setCreateTime(sdf.parse(jo.getString("created_at")));
-					releaseRepository.save(release);
+					Commit commit = new Commit();
+					commit.setRepoID(repoID);
+					commit.setTime(sdf.parse(
+							jo.getJSONObject("commit")
+									.getJSONObject("committer")
+									.getString("date")));
+					commitRepository.save(commit);
 				}
 			}
-			
+			System.out.println("update finish.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public long countRelease() {
-		return releaseRepository.count();
+	public void delete(long repoID) {
+		commitRepository.deleteAllByRepoID(repoID);
 	}
 	
-	@Override
-	public void delete(long repoID) {
-		releaseRepository.deleteAllByRepoID(repoID);
-	}
 }

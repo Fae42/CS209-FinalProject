@@ -25,6 +25,7 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public void update(String owner, String repoName, long repoID) {
 		System.out.println("update issue");
+		this.delete(repoID);
 		try {
 			StringBuilder json = new StringBuilder();
 			String accessToken = "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";
@@ -94,4 +95,8 @@ public class IssueServiceImpl implements IssueService{
 		return issueRepository.minSolveTime();
 	}
 	
+	@Override
+	public void delete(long repoID) {
+		issueRepository.deleteAllByRepoID(repoID);
+	}
 }

@@ -22,6 +22,7 @@ public class DeveloperServiceImpl implements DeveloperService{
 	@Override
 	public void update(String owner, String repoName, long repoID) {
 		System.out.println("update developers");
+		this.delete(repoID);
 		try {
 			StringBuilder json = new StringBuilder();
 			String accessToken = "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";
@@ -63,5 +64,10 @@ public class DeveloperServiceImpl implements DeveloperService{
 	
 	public List<Developer> findAll() {
 		return developRepository.findAll();
+	}
+	
+	@Override
+	public void delete(long repoID) {
+		developRepository.deleteAllByRepoID(repoID);
 	}
 }
