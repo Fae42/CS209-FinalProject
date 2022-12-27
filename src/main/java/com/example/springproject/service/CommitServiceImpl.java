@@ -7,6 +7,7 @@ import com.example.springproject.domain.Release;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.stream.Stream;
@@ -75,6 +77,11 @@ public class CommitServiceImpl implements CommitService {
 	@Override
 	public void delete(long repoID) {
 		commitRepository.deleteAllByRepoID(repoID);
+	}
+	
+	@Override
+	public List<Commit> findAll() {
+		return commitRepository.findAll(new Sort(Sort.Direction.DESC, "time"));
 	}
 	
 	
