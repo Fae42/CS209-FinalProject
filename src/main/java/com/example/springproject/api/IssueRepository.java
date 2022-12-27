@@ -28,4 +28,5 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 	
 	@Query("select min(i.closeTime-i.openTime) from Issue i")
 	long minSolveTime();
+
 }

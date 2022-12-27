@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -101,5 +102,10 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public void delete(long repoID) {
 		issueRepository.deleteAllByRepoID(repoID);
+	}
+	
+	@Override
+	public List<Issue> findAll() {
+		return issueRepository.findAll();
 	}
 }
