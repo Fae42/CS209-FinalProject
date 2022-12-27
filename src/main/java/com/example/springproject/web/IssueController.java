@@ -27,15 +27,15 @@ public class IssueController {
         return issueService.countClose();
     }
     @GetMapping("/getAvg")
-    public Date getAvg() throws IOException {
+    public String getAvg() throws IOException {
         return issueService.getAvgSolveTime();
     }
     @GetMapping("/getMin")
-    public Date getMin() throws IOException {
+    public String getMin() throws IOException {
         return issueService.getMinSolveTime();
     }
     @GetMapping("/getMax")
-    public Date getMax() throws IOException {
+    public String getMax() throws IOException {
         return issueService.getMaxSolveTime();
     }
 

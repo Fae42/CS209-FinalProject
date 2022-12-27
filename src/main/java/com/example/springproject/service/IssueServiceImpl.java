@@ -86,17 +86,18 @@ public class IssueServiceImpl implements IssueService{
 	}
 	
 	@Override
-	public Date getAvgSolveTime() {
+	public String getAvgSolveTime() {
 		return issueRepository.avgSolveTime();
 	}
 	
 	@Override
-	public Date getMaxSolveTime() {
+	public String getMaxSolveTime() {
+		System.out.println(issueRepository.maxSolveTime());
 		return issueRepository.maxSolveTime();
 	}
 	
 	@Override
-	public Date getMinSolveTime() {
+	public String getMinSolveTime() {
 		return issueRepository.minSolveTime();
 	}
 	

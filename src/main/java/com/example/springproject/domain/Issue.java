@@ -1,11 +1,11 @@
 package com.example.springproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Type;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity

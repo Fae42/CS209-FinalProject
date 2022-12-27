@@ -10,9 +10,9 @@ public interface IssueService {
 	public void update(String owner, String repoName, long repoID);
 	public long countOpen();
 	public long countClose();
-	public Date getAvgSolveTime();
-	public Date getMaxSolveTime();
-	public Date getMinSolveTime();
+	public String getAvgSolveTime();
+	public String getMaxSolveTime();
+	public String getMinSolveTime();
 	public void delete(long repoID);
 	public List<Issue> findAll();
 }

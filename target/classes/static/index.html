@@ -311,6 +311,36 @@
     });
     bar2.hideLoading();
 
+    var ans=[0,0,0,0]
+    $.ajax( {
+        url:'/commit/getCommits',
+        async: false,
+        type:'get',
+        data: {},
+        datatype : "json",
+        success : function(data) {
+            var min=data[0].time;
+            var max=data[0],time;
+            for(var i=1; i<data.length; i++){
+                if(data[i].time<min){
+                    min=data[i].time;
+                }
+                if(data[i].time>max){
+                    max=data[i].time;
+                }
+            }
+            for(var i=1; i<data.length; i++){
+
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            debugger
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpRequest.readyState);
+            console.log(textStatus);
+        }
+    });
+
 
     /*
     var barChart = echarts.init(document.getElementById('bar'));
