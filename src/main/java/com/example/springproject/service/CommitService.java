@@ -8,4 +8,5 @@ public interface CommitService {
 	public void update(String owner, String repoName, long repoID);
 	public void delete(long repoID);
 	public List<Commit> findAll();
+	public long countCommit();
 }

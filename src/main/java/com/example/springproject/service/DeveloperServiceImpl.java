@@ -68,6 +68,10 @@ public class DeveloperServiceImpl implements DeveloperService{
 	public List<Developer> findAll() {
 		return developRepository.findAll();
 	}
+
+	public long countDevelopers(){
+		return developRepository.count();
+	}
 	
 	@Override
 	public void delete(long repoID) {

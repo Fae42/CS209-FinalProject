@@ -8,6 +8,7 @@ import java.util.List;
 public interface IssueService {
 	
 	public void update(String owner, String repoName, long repoID);
+	public long countIssue();
 	public long countOpen();
 	public long countClose();
 	public String getAvgSolveTime();

@@ -83,6 +83,8 @@ public class CommitServiceImpl implements CommitService {
 	public List<Commit> findAll() {
 		return commitRepository.findAll(new Sort(Sort.Direction.DESC, "time"));
 	}
-	
-	
+	@Override
+	public long countCommit() {
+		return commitRepository.count();
+	}
 }

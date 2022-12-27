@@ -22,4 +22,8 @@ public class DeveloperController {
 	public List<Developer> getDevelopers() throws IOException {
 		return developerService.findAll();
 	}
+	@GetMapping("/getCount")
+	public long getCount() throws IOException {
+		return developerService.countDevelopers();
+	}
 }

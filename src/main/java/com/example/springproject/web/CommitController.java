@@ -18,6 +18,10 @@ public class CommitController {
     @Autowired
     CommitService commitService;
 
+    @GetMapping("/getCount")
+    public long getCount() throws IOException {
+        return commitService.countCommit();
+    }
     @GetMapping("/getCommits")
     public List<Commit> getCommits() throws IOException {
         return commitService.findAll();

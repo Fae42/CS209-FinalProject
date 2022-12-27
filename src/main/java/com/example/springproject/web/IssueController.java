@@ -18,6 +18,10 @@ public class IssueController {
     @Autowired
     IssueService issueService;
 
+    @GetMapping("/getCount")
+    public long getCount() throws IOException {
+        return issueService.countIssue();
+    }
     @GetMapping("/getOpen")
     public long getOpen() throws IOException {
         return issueService.countOpen();

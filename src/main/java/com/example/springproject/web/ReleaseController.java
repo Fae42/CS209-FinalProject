@@ -20,7 +20,7 @@ public class ReleaseController {
     public long getCount() throws IOException {
         return releaseServiceService.countRelease();
     }
-    @GetMapping("/getCB")
+    @GetMapping("/getCommitBetween")
     public List<Integer> getCommitsBetween() throws IOException {
         return releaseServiceService.commitsBetween();
     }

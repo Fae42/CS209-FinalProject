@@ -75,6 +75,9 @@ public class IssueServiceImpl implements IssueService{
 		}
 	}
 	
+	public long countIssue(){
+		return issueRepository.count();
+	}
 	@Override
 	public long countOpen() {
 		return issueRepository.countByIsOpenTrue();
