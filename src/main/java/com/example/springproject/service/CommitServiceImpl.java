@@ -1,6 +1,7 @@
 package com.example.springproject.service;
 
 import com.example.springproject.api.CommitRepository;
+import com.example.springproject.api.IssueRepository;
 import com.example.springproject.domain.Commit;
 import com.example.springproject.domain.Release;
 import net.sf.json.JSONArray;
@@ -22,6 +23,7 @@ import java.util.stream.Stream;
 public class CommitServiceImpl implements CommitService {
 	@Autowired
 	CommitRepository commitRepository;
+	
 	@Override
 	public void update(String owner, String repoName, long repoID) {
 		System.out.println("update commit");
@@ -74,5 +76,6 @@ public class CommitServiceImpl implements CommitService {
 	public void delete(long repoID) {
 		commitRepository.deleteAllByRepoID(repoID);
 	}
+	
 	
 }

@@ -43,4 +43,9 @@ public class Test {
 	public long countRelease() {
 		return releaseService.countRelease();
 	}
+	
+	@GetMapping("/commits_between")
+	public List<Integer> commitsBetween() {
+		return releaseService.commitsBetween();
+	}
 }

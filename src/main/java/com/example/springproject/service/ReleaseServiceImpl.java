@@ -1,12 +1,15 @@
 package com.example.springproject.service;
 
+import com.example.springproject.api.CommitRepository;
 import com.example.springproject.api.DevelopRepository;
 import com.example.springproject.api.ReleaseRepository;
+import com.example.springproject.domain.Commit;
 import com.example.springproject.domain.Developer;
 import com.example.springproject.domain.Release;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,14 +18,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 @Service
 public class ReleaseServiceImpl implements ReleaseService{
 	@Autowired
 	ReleaseRepository releaseRepository;
+	@Autowired
+	CommitRepository commitRepository;
 	@Override
 	public void update(String owner, String repoName, long repoID) {
 		System.out.println("update releases");
@@ -77,5 +80,21 @@ public class ReleaseServiceImpl implements ReleaseService{
 	@Override
 	public void delete(long repoID) {
 		releaseRepository.deleteAllByRepoID(repoID);
+	}
+	
+	@Override
+	public List<Integer> commitsBetween() {
+		List<Release> releases = releaseRepository.findAll(new Sort(Sort.Direction.DESC, "createTime"));
+		//from new to old
+		List<Integer> ans = new ArrayList<>();
+		for(int i=1; i<releases.size(); i++) {
+			Date d1 = releases.get(i-1).getCreateTime();
+			Date d2 = releases.get(i).getCreateTime();
+			System.out.println(d1);
+			System.out.println(d2);
+			System.out.println();
+			ans.add((int) commitRepository.countByTimeLessThanAndTimeGreaterThan(d1, d2));
+		}
+		return ans;
 	}
 }

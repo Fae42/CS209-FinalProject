@@ -8,4 +8,5 @@ public interface ReleaseService {
 	public void update(String owner, String repoName, long repoID);
 	public long countRelease();
 	public void delete(long repoID);
+	public List<Integer> commitsBetween();
 }
