@@ -21,16 +21,19 @@
             </h4>
         </div>
         <div id="collapseOne" class="panel-collapse collapse in">
-            <table width="600" border="1" cellspacing="0">
-                <thead>
-                    <th>Name</th>
-                    <th>Developers</th>
-                    <th>Issues</th>
-                    <th>Releases</th>
-                    <th>Commits</th>
-                </thead>
-                <tbody id="tb"></tbody>
-            </table>
+            <div class="panel-body">
+                <table width="600" border="1" cellspacing="0">
+                    <thead>
+                        <th>Name</th>
+                        <th>Developers</th>
+                        <th>Issues</th>
+                        <th>Releases</th>
+                        <th>Commits</th>
+                    </thead>
+                    <tbody id="tb"></tbody>
+                </table>
+                <div id="bar1" style="width: 1000px;height:400px;"></div>
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
@@ -43,7 +46,10 @@
             </h4>
         </div>
         <div id="collapseTwo" class="panel-collapse collapse">
-            <div id="bar1" style="width: 1000px;height:400px;"></div>
+            <div class="panel-body">
+                <p id="dp"></p>
+                <div id="bar2" style="width: 1000px;height:400px;"></div>
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
@@ -73,7 +79,8 @@
         </div>
         <div id="collapseFour" class="panel-collapse collapse">
             <div class="panel-body">
-                <div id="bar2" style="width: 1500px;height:400px;"></div>
+                <p id="rp"></p>
+                <div id="line1" style="width: 1500px;height:400px;"></div>
                 <div id="bar3" style="width: 1000px;height:400px;"></div>
             </div>
         </div>
@@ -88,7 +95,8 @@
     bar2.showLoading();
     var bar3=echarts.init(document.getElementById('bar3'));
     bar3.showLoading();
-
+    var line1=echarts.init(document.getElementById('line1'));
+    bar2.showLoading();
     var pie1=echarts.init(document.getElementById('pie1'));
     pie1.showLoading();
     // $.ajax({
@@ -103,7 +111,7 @@
     var releases;
     var commits;
     var row = document.createElement('tr');
-    name="temp";
+    name="MaaAssistantArknights/MaaAssistantArknights";
     var nameCell = document.createElement('td');
     nameCell.innerHTML=name;
     row.appendChild(nameCell);
@@ -185,7 +193,34 @@
     row.appendChild(commitsCell);
     var tb = document.getElementById('tb');
     tb.appendChild(row);
+    bar1.setOption({
+        xAxis : {
+            data : ["Developer number","Issue number","Release number","Commit number"]
+        },
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                type: 'bar',
+                data: [developers,issues,releases,commits],
+                itemStyle: {
+                    normal: {
+                        color:'#00602d',
+                        label: {
+                            show: true,
+                            position: 'top',
+                        }
+                    }
+                },
+            }
+        ]
+    });
+    bar1.hideLoading();
 
+    document.getElementById("dp").innerHTML = "Developer number: "+developers+"; Commit number: "+commits+";";
     var xdata=[];
     var ydata=[];
     $.ajax( {
@@ -207,7 +242,7 @@
             console.log(textStatus);
         }
     });
-    bar1.setOption({
+    bar2.setOption({
         xAxis : {
             data : xdata
         },
@@ -232,7 +267,7 @@
             }
         ]
     });
-    bar1.hideLoading();
+    bar2.hideLoading();
 
 
     var avg;
@@ -323,7 +358,7 @@
             console.log(textStatus);
         }
     });
-    document.getElementById("ip").innerHTML = "Average time: "+avg+"; Min time: "+min+"; Max time: "+max+";";
+    document.getElementById("ip").innerHTML = "Issue number: "+issues+"; Average time: "+avg+"; Min time: "+min+"; Max time: "+max+";";
     var pie_data=[];
     pie_data.push({value:open,name:"Open issues"});
     pie_data.push({value:close,name:"Close issues"});
@@ -350,6 +385,7 @@
 
     var cb=[];
     var rl=[];
+    document.getElementById("rp").innerHTML = "Release number: "+releases+"; Commit number: "+commits+";";
     $.ajax( {
         url:'/release/getCommitBetween',
         async: false,
@@ -369,7 +405,7 @@
             console.log(textStatus);
         }
     });
-    bar2.setOption({
+    line1.setOption({
         xAxis : {
             data : rl
         },
@@ -398,7 +434,7 @@
             }
         ]
     });
-    bar2.hideLoading();
+    line1.hideLoading();
 
     var cnt=[0,0,0,0,0,0,0];
     $.ajax( {
