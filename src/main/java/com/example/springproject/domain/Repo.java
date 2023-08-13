@@ -24,6 +24,8 @@ public class Repo {
     int commit_times;
     int releases_top10_commits;
     int releases_commits;
+    
+    final int default_num = -1;
 
     public Repo(String name, int developerNum, int most_active_developer, int open_issues, int close_issues, double issue_solve_average, int issue_solve_max_day, int issue_solve_min_day, int releases, int commit_times, int releases_top10_commits, int releases_commits) {
         this.name = name;
@@ -42,17 +44,17 @@ public class Repo {
 
     public Repo(){
         this.name = "name";
-        this.developerNum = 0;
-        this.most_active_developer = 0;
-        this.open_issues = 0;
-        this.close_issues = 0;
-        this.issue_solve_average = 0;
-        this.issue_solve_max_day = 0;
-        this.issue_solve_min_day = 0;
-        this.releases = 0;
-        this.commit_times = 0;
-        this.releases_top10_commits = 0;
-        this.releases_commits = 0;
+        this.developerNum = default_num;
+        this.most_active_developer = default_num;
+        this.open_issues = default_num;
+        this.close_issues = default_num;
+        this.issue_solve_average = default_num;
+        this.issue_solve_max_day = default_num;
+        this.issue_solve_min_day = default_num;
+        this.releases = default_num;
+        this.commit_times = default_num;
+        this.releases_top10_commits = default_num;
+        this.releases_commits = default_num;
     }
     
     public long getId() {

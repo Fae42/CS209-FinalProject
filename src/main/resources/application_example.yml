@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/spring_project
+    url: jdbc:postgresql://localhost:5432/
     username: postgres
     password: 123456
 
@@ -18,3 +18,8 @@ spring:
           use_jdbc_metadata_defaults: false
   thymeleaf:
     mode: HTML
+
+github:
+    token: github_pat_1233456778
+    owner: MaaAssistantArknights
+    repository: MaaAssistantArknights

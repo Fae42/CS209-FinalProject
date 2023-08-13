@@ -1,17 +1,18 @@
 package com.example.springproject.web;
 
-import com.example.springproject.domain.Developer;
 import com.example.springproject.domain.Repo;
-import com.example.springproject.service.DeveloperService;
 import com.example.springproject.service.RepoService;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController
@@ -29,9 +30,9 @@ public class RepoController {
             File jsonFile = new File(fileName);
             FileReader fileReader = new FileReader(jsonFile);
 
-            Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "utf-8");
+            Reader reader = new InputStreamReader(Files.newInputStream(jsonFile.toPath()), StandardCharsets.UTF_8);
             int ch = 0;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while ((ch = reader.read()) != -1) {
                 sb.append((char) ch);
             }
