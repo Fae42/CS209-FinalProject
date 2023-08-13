@@ -1,3 +1,25 @@
+# 对特定Github仓库的数据可视化网页
+
+## 1. 介绍
+
+如题，原为SUSTech Java2课程项目。
+
+## 2. TODO List
+
+（有删除线的条目已实现）
+
+- ~~通过Github API获取指定仓库的数据~~
+- ~~清洗数据存入数据库~~
+- 重构前端
+- 通过Docker部署
+- 优化代码
+  - 待定
+
+
+****
+
+*以下是本项目的原要求文档，由课程给出*
+
 # Spring-Project
 
 ***HOPE YOU CLICK A STAR:star::star::star:***
