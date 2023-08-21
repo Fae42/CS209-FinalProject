@@ -1,11 +1,10 @@
 package com.example.springproject.service;
 
-import com.example.springproject.api.DevelopRepository;
+import com.example.springproject.api.DeveloperRepository;
 import com.example.springproject.domain.Developer;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -19,13 +18,13 @@ import java.util.Map;
 @Service
 public class DeveloperServiceImpl implements DeveloperService{
 	@Autowired
-	DevelopRepository developRepository;
+	DeveloperRepository developerRepository;
 	@Override
 	public void update(String owner, String repoName, long repoID) {
 		System.out.println("update developers");
 		this.delete(repoID);
 		try {
-			StringBuilder json = new StringBuilder();
+			StringBuilder json;
 			String accessToken = "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";
 			int page = 1;
 			while(true) {
@@ -38,7 +37,7 @@ public class DeveloperServiceImpl implements DeveloperService{
 				Map tmp = httpURLConnection.getHeaderFields();
 				tmp.entrySet().stream().forEach(System.out::println);
 				BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-				String inputLine = null;
+				String inputLine;
 				while ( (inputLine = in.readLine()) != null) {
 					json.append(inputLine);
 				}
@@ -56,7 +55,7 @@ public class DeveloperServiceImpl implements DeveloperService{
 					System.out.println(jo.getString("login"));
 					developer.setContributions(jo.getInt("contributions"));
 					developer.setName((jo.getString("login")));
-					developRepository.save(developer);
+					developerRepository.save(developer);
 				}
 			}
 			
@@ -66,15 +65,15 @@ public class DeveloperServiceImpl implements DeveloperService{
 	}
 	
 	public List<Developer> findAll() {
-		return developRepository.findAll();
+		return developerRepository.findAll();
 	}
 
 	public long countDevelopers(){
-		return developRepository.count();
+		return developerRepository.count();
 	}
 	
 	@Override
 	public void delete(long repoID) {
-		developRepository.deleteAllByRepoID(repoID);
+		developerRepository.deleteAllByRepoID(repoID);
 	}
 }

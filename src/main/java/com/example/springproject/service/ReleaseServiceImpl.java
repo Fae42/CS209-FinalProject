@@ -1,10 +1,7 @@
 package com.example.springproject.service;
 
 import com.example.springproject.api.CommitRepository;
-import com.example.springproject.api.DevelopRepository;
 import com.example.springproject.api.ReleaseRepository;
-import com.example.springproject.domain.Commit;
-import com.example.springproject.domain.Developer;
 import com.example.springproject.domain.Release;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

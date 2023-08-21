@@ -1,7 +1,7 @@
 package com.example.springproject.app;
 
 import com.example.springproject.api.CommitRepository;
-import com.example.springproject.api.DevelopRepository;
+import com.example.springproject.api.DeveloperRepository;
 import com.example.springproject.api.IssueRepository;
 import com.example.springproject.api.RepoRepository;
 import com.example.springproject.domain.Commit;
@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 @RestController
 @RequestMapping("/")
 public class RESTful {
 	@Autowired
-	DevelopRepository developRepository;
+	DeveloperRepository developerRepository;
 	@Autowired
 	CommitRepository commitRepository;
 	@Autowired
@@ -31,7 +29,7 @@ public class RESTful {
 	RepoRepository repoRepository;
 	@GetMapping("/developer/{id}")
 	Developer find(@PathVariable Long id) {
-		return developRepository.findById(id)
+		return developerRepository.findById(id)
 				.orElseThrow(() -> new DeveloperNotFoundException(id));
 	}
 	@GetMapping("/commit/{id}")

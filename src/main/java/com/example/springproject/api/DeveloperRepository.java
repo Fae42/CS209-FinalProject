@@ -6,11 +6,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Repository
-public interface DevelopRepository extends JpaRepository<Developer, Long> {
+public interface DeveloperRepository extends JpaRepository<Developer, Long> {
 	@Modifying
 	@Transactional
-	public void deleteAllByRepoID(long repoID);
+	void deleteAllByRepoID(long repoID);
 }
